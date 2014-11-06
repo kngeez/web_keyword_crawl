@@ -4,6 +4,8 @@ require 'csv'
 
 keyword_list = ["compressor", "determined"]
 
+keyword_list2 = ["nail bomb", "chemical bomb", "firework", "firecracker", "grenade", "handgun", "rifle", "shotgun", "hunting gun", "functioning antique gun", "airsoft gun", "paintball gun", "bb gun", "gun scope", "ammunition", "ammunition clip", "ammunition belt", "switchblade", "tactical knive", "fighting knive", "sword cane", "balisong", "military knive", "push dagger", "throwing axe", "weapon", "throwing star", "brass knuckle", "crossbow"]
+
 keyword_found = false
 current_domain = ""
 
