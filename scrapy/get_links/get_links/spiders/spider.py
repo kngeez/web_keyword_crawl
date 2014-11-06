@@ -4,9 +4,8 @@ from get_links.items import MyItem
 
 class MySpider(CrawlSpider):
     name = 'links'
-    allowed_domains = ['alltypefire.ca', 'rushpalletandcrates.com']
-    start_urls = ['http://www.alltypefire.ca'
-                  , 'http://www.rushpalletandcrates.com']
+    allowed_domains = ['alltypefireprotection.ca', 'alltypefire.calls.net', 'rushpalletandcrates.ca', 'rushpalletandcrates.calls.net', 'dixieartpictureframe.ca', 'dixieartpictureframe.com']
+    start_urls = ['http://www.alltypefireprotection.ca', 'http://www.alltypefire.calls.net', 'http://www.rushpalletandcrates.ca', 'http://www.rushpalletandcrates.calls.net', 'http://www.dixieartpictureframe.ca', 'http://dixieartpictureframe.com/']
 
     rules = (Rule(SgmlLinkExtractor(), callback='parse_url', follow=True), )
 

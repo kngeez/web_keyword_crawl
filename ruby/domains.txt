@@ -1,0 +1,5 @@
+Allowed Domains:
+'alltypefireprotection.ca', 'alltypefire.calls.net', 'rushpalletandcrates.ca', 'rushpalletandcrates.calls.net', 'dixieartpictureframe.ca', 'dixieartpictureframe.com'
+
+Start URLs:
+'http://www.alltypefireprotection.ca', 'http://www.alltypefire.calls.net', 'http://www.rushpalletandcrates.ca', 'http://www.rushpalletandcrates.calls.net', 'http://www.dixieartpictureframe.ca', 'http://dixieartpictureframe.com/'
