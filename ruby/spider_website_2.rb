@@ -29,9 +29,7 @@ end
 
 
 def keyword_on_website(url)
-  keyword_list = ["compressor", "flower", "responsibilities"]
-
-  keyword_list2 = ["nail bomb", "chemical bomb", "firework", "firecracker" , "grenade", "handgun", "rifle", "shotgun", "hunting gun", "functioning antique gun", "airsoft gun", "paintball gun", "bb gun", "gun scope", "ammunition", "ammunition clip", "ammunition belt", "switchblade", "tactical knive", "tactical knife", "fighting knive", "fighting knife", "sword cane", "balisong", "military knive", "military knife", "push dagger", "throwing axe", "weapon", "throwing star", "brass knuckle", "crossbow"]
+  keyword_list = ["nail bomb", "chemical bomb", "firework", "firecracker" , "grenade", "handgun", "rifle", "shotgun", "hunting gun", "functioning antique gun", "airsoft gun", "paintball gun", "bb gun", "gun scope", "ammunition", "ammunition clip", "ammunition belt", "switchblade", "tactical knive", "tactical knife", "fighting knive", "fighting knife", "sword cane", "balisong", "military knive", "military knife", "push dagger", "throwing axe", "weapon", "throwing star", "brass knuckle", "crossbow"]
 
   Anemone.crawl(url) do |anemone|
     anemone.on_every_page do |page|
@@ -39,11 +37,12 @@ def keyword_on_website(url)
       html = page.body
       if html != nil
         html = html.downcase
-        if keyword_list2.any?{ |k| html.include?(k) }
-          # puts "Keyword found on: " + url.to_s()
-          # puts ""
-          anemone.stop_crawl()
-          return page_url.to_s()
+
+        for k in keyword_list
+          if html.include?(k)
+            anemone.stop_crawl()
+            return [page_url.to_s(), k]
+          end
         end
       else
         puts "No HTML"
@@ -58,7 +57,7 @@ end
 
 def process_websites(input_file, output_file)
   csv_contents = CSV.read(input_file)
- # csv_contents = [["41-test", "http://www.alltypefireprotection.ca"]]
+ # csv_contents = [["41-test", "http://www.trophybookarcheryltd.ca/"]]
   CSV.open(output_file, "wb") do |csv|
     csv_contents.each do |row|
       landing_page = row[1]
@@ -66,20 +65,20 @@ def process_websites(input_file, output_file)
 
       keyword_website = keyword_on_website(landing_page)
       if keyword_website != nil
-        send_to_csv[1] = keyword_website
-        send_to_csv.push("yes")
+        send_to_csv[1] = keyword_website[0]
+        send_to_csv << ("yes") << keyword_website[1]
        else
         leads_page_website = is_leads_page(landing_page)
         if leads_page_website != nil
           keyword_website = keyword_on_website(leads_page_website)
           if keyword_website != nil
-            send_to_csv[1] = keyword_website
-            send_to_csv.push("yes")
+            send_to_csv[1] = keyword_website[0]
+            send_to_csv << ("yes") << keyword_website[1]
           else
-            send_to_csv.push("no")
+            send_to_csv << ("no")
           end
         else
-          send_to_csv.push("no")
+          send_to_csv << ("no")
         end
       end
       csv << (send_to_csv)
