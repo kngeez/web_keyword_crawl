@@ -29,7 +29,13 @@ end
 
 
 def keyword_on_website(url)
-  keyword_list = ["nail bomb", "chemical bomb", "firework", "firecracker" , "grenade", "handgun", "rifle", "shotgun", "hunting gun", "functioning antique gun", "airsoft gun", "paintball gun", "bb gun", "gun scope", "ammunition", "ammunition clip", "ammunition belt", "switchblade", "tactical knive", "tactical knife", "fighting knive", "fighting knife", "sword cane", "balisong", "military knive", "military knife", "push dagger", "throwing axe", "weapon", "throwing star", "brass knuckle", "crossbow"]
+  keyword_list = ["nail bomb", "chemical bomb", "firework", "firecracker", "grenade",
+                  "handgun", "rifle", "shotgun", "hunting gun", "functioning antique gun",
+                  "airsoft gun", "paintball gun", "bb gun", "gun scope", "ammunition",
+                  "ammunition clip", "ammunition belt", "switchblade", "tactical knive",
+                  "tactical knife", "fighting knive", "fighting knife", "sword cane",
+                  "balisong", "military knive", "military knife", "push dagger",
+                  "throwing axe", "weapon", "throwing star", "brass knuckle", "crossbow"]
 
   Anemone.crawl(url) do |anemone|
     anemone.on_every_page do |page|
@@ -37,7 +43,6 @@ def keyword_on_website(url)
       html = page.body
       if html != nil
         html = html.downcase
-
         for k in keyword_list
           if html.include?(k)
             anemone.stop_crawl()
@@ -59,6 +64,7 @@ def process_websites(input_file, output_file)
   csv_contents = CSV.read(input_file)
  # csv_contents = [["41-test", "http://www.trophybookarcheryltd.ca/"]]
   CSV.open(output_file, "wb") do |csv|
+    csv << ["CID-AID", "Webpage Keyword Appears", "Keyword Found?", "Keyword"]
     csv_contents.each do |row|
       landing_page = row[1]
       send_to_csv = [row[0], landing_page]
@@ -67,7 +73,7 @@ def process_websites(input_file, output_file)
       if keyword_website != nil
         send_to_csv[1] = keyword_website[0]
         send_to_csv << ("yes") << keyword_website[1]
-       else
+      else
         leads_page_website = is_leads_page(landing_page)
         if leads_page_website != nil
           keyword_website = keyword_on_website(leads_page_website)
