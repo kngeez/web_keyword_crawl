@@ -62,10 +62,11 @@ end
 
 def process_websites(input_file, output_file)
   csv_contents = CSV.read(input_file)
- # csv_contents = [["41-test", "http://www.trophybookarcheryltd.ca/"]]
+#  csv_contents = [["41-test", "http://www.kitchenermotelon.ca"]]
   CSV.open(output_file, "wb") do |csv|
     csv << ["CID-AID", "Webpage Keyword Appears", "Keyword Found?", "Keyword"]
     csv_contents.each do |row|
+      puts "Processing: " + row[0]
       landing_page = row[1]
       send_to_csv = [row[0], landing_page]
 
@@ -93,4 +94,4 @@ def process_websites(input_file, output_file)
 end
 
 
-process_websites("test_websites.csv", "results.csv")
+process_websites("Website_List_1.csv", "results.csv")
