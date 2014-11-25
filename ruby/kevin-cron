@@ -1,0 +1,2 @@
+
+* * * * * root /home/kng/Projects/ruby/timer_dump.sh >> /tmp/cronjob-log.txt 2>&1
