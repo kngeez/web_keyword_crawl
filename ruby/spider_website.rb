@@ -37,8 +37,15 @@ def keyword_on_website(url)
                   "balisong", "military knive", "military knife", "push dagger",
                   "throwing axe", "weapon", "throwing star", "brass knuckle", "crossbow"]
 
+  pages = 0
   Anemone.crawl(url) do |anemone|
     anemone.on_every_page do |page|
+      if pages > 500
+        puts "Max pages reached for: " + url
+        anemone.stop_crawl()
+        return [url, "max pages reached"]
+      end
+      
       page_url =  page.url
       html = page.body
       if html != nil
@@ -54,6 +61,7 @@ def keyword_on_website(url)
         puts page_url.to_s()
         puts ""
       end
+      pages += 1
     end
   end
   return nil
@@ -62,7 +70,7 @@ end
 
 def process_websites(input_file, output_file)
   csv_contents = CSV.read(input_file)
-#  csv_contents = [["41-test", "http://www.kitchenermotelon.ca"]]
+#  csv_contents = [["41-test", "http://www.dandy.ca"]]
   CSV.open(output_file, "wb") do |csv|
     csv << ["CID-AID", "Webpage Keyword Appears", "Keyword Found?", "Keyword"]
     csv_contents.each do |row|
@@ -73,14 +81,24 @@ def process_websites(input_file, output_file)
       keyword_website = keyword_on_website(landing_page)
       if keyword_website != nil
         send_to_csv[1] = keyword_website[0]
-        send_to_csv << ("yes") << keyword_website[1]
+        if keyword_website[1] == "max pages reached"
+          send_to_csv << ("no")
+        else
+          send_to_csv << ("yes")
+        end
+        send_to_csv << keyword_website[1]
       else
         leads_page_website = is_leads_page(landing_page)
         if leads_page_website != nil
           keyword_website = keyword_on_website(leads_page_website)
           if keyword_website != nil
             send_to_csv[1] = keyword_website[0]
-            send_to_csv << ("yes") << keyword_website[1]
+            if keyword_website[1] == "max pages reached"
+              send_to_csv << ("no")
+            else
+              send_to_csv << ("yes")
+            end
+            send_to_csv << keyword_website[1]
           else
             send_to_csv << ("no")
           end
